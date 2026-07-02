@@ -1,7 +1,6 @@
-"use client";
-
-import { useEffect } from "react";
 import { StoreProvider } from "@/lib/store";
+import { ScrollToastProvider } from "@/components/ScrollToast";
+import { ScrollTracker } from "@/components/ScrollTracker";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
@@ -10,9 +9,7 @@ import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { Specs } from "@/components/Specs";
 import { Newsletter } from "@/components/Newsletter";
 import { Footer } from "@/components/Footer";
-import { CartDrawer } from "@/components/CartDrawer";
-import { Chatbot } from "@/components/Chatbot";
-import { initScrollTracking, track } from "@/lib/analytics";
+import { LazyWidgets } from "@/components/LazyWidgets";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -29,42 +26,29 @@ const jsonLd = {
   },
 };
 
-function PageContent() {
-  useEffect(() => {
-    const cleanup = initScrollTracking();
-    const sections = document.querySelectorAll("section[id]");
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) track({ type: "section_view", section: e.target.id }); }),
-      { threshold: 0.4 }
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => { cleanup(); observer.disconnect(); };
-  }, []);
-
-  return (
-    <>
-      <Nav />
-      <main>
-        <Hero />
-        <Features />
-        <Products />
-        <RecentlyViewed />
-        <Specs />
-        <Newsletter />
-      </main>
-      <Footer />
-      <CartDrawer />
-      <Chatbot />
-    </>
-  );
-}
-
+// Server Component: page.tsx itself ships zero extra client JS. StoreProvider,
+// Nav, Hero, etc. remain client components internally (they need
+// context/hooks), but the page shell + JSON-LD render without wrapping
+// the whole tree in a client boundary.
 export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <StoreProvider>
-        <PageContent />
+        <ScrollToastProvider>
+          <ScrollTracker />
+          <Nav />
+          <main>
+            <Hero />
+            <Features />
+            <Products />
+            <RecentlyViewed />
+            <Specs />
+            <Newsletter />
+          </main>
+          <Footer />
+          <LazyWidgets />
+        </ScrollToastProvider>
       </StoreProvider>
     </>
   );

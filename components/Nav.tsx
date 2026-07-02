@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { useStore } from "@/lib/store";
 import { track } from "@/lib/analytics";
+import { useRipple } from "@/lib/useRipple";
 
 const LINKS = [
   { href: "#features", label: "Tính năng" },
@@ -27,6 +28,7 @@ function CartIcon({ count }: { count: number }) {
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { cartCount, setCartOpen } = useStore();
+  const ripple = useRipple();
 
   return (
     <>
@@ -58,7 +60,10 @@ export function Nav() {
             >
               <CartIcon count={cartCount} />
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-aqua text-midnight text-[10px] font-semibold px-1 num">
+                <span
+                  key={cartCount}
+                  className="badge-bounce absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-aqua text-midnight text-[10px] font-semibold px-1 num"
+                >
                   {cartCount}
                 </span>
               )}
@@ -67,8 +72,8 @@ export function Nav() {
             {/* Desktop CTA */}
             <a
               href="#newsletter"
-              onClick={() => track({ type: "cta_click", cta: "nav_preorder" })}
-              className="hidden sm:inline-flex items-center text-sm font-medium px-4 py-2 rounded-full bg-midnight text-bone dark:bg-aqua dark:text-midnight hover:opacity-90 transition-opacity"
+              onClick={(e) => { ripple(e); track({ type: "cta_click", cta: "nav_preorder" }); }}
+              className="relative overflow-hidden hidden sm:inline-flex items-center text-sm font-medium px-4 py-2 rounded-full bg-midnight text-bone dark:bg-aqua dark:text-midnight hover:opacity-90 transition-opacity"
             >
               Đặt trước
             </a>
