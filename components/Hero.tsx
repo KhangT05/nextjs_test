@@ -19,7 +19,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="font-mono text-xs uppercase tracking-[0.2em] text-aqua mb-5"
+            className="num text-xs uppercase tracking-[0.2em] text-aqua mb-5"
           >
             Titan · 2.4g · 7 ngày pin
           </motion.p>
@@ -28,7 +28,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display font-semibold tracking-tightest text-5xl sm:text-6xl lg:text-7xl leading-[0.98]"
+            className="font-semibold tracking-tightest text-5xl sm:text-6xl lg:text-7xl leading-[0.98]"
           >
             Cơ thể bạn
             <br />
@@ -71,7 +71,7 @@ export function Hero() {
             </a>
           </motion.div>
 
-          <p className="mt-6 text-xs text-slate-400 font-mono">
+          <p className="mt-6 text-xs text-slate-400 num">
             Giao hàng Q3/2026 · Hoàn tiền 100% nếu hủy trước khi xuất xưởng
           </p>
         </div>
@@ -87,11 +87,11 @@ export function Hero() {
           </div>
           {/* satellite micro-stats */}
           <div className="absolute -left-2 bottom-4 hidden sm:block bg-bone dark:bg-midnight2 border border-midnight/10 dark:border-bone/10 rounded-2xl px-4 py-3 shadow-lg">
-            <p className="font-mono text-2xl tabular-nums">58<span className="text-sm text-slate-400 ml-1">bpm</span></p>
+            <p className="num text-2xl tabular-nums">58<span className="text-sm text-slate-400 ml-1">bpm</span></p>
             <p className="text-[11px] uppercase tracking-widest text-slate-400">Nhịp tim nghỉ</p>
           </div>
           <div className="absolute -right-2 top-6 hidden sm:block bg-bone dark:bg-midnight2 border border-midnight/10 dark:border-bone/10 rounded-2xl px-4 py-3 shadow-lg">
-            <p className="font-mono text-2xl tabular-nums">98<span className="text-sm text-slate-400 ml-1">%</span></p>
+            <p className="num text-2xl tabular-nums">98<span className="text-sm text-slate-400 ml-1">%</span></p>
             <p className="text-[11px] uppercase tracking-widest text-slate-400">SpO2</p>
           </div>
         </motion.div>

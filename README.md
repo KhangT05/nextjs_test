@@ -84,3 +84,18 @@ lib/
   analytics.ts      # scroll-depth + section-view + cta-click → webhook
 ```
 
+## Đã làm / chưa làm (theo yêu cầu đề bài)
+
+**Đã làm trong code:**
+- Hero, Features, Specs, Newsletter form — đủ 4 section bắt buộc.
+- Responsive (mobile-first, breakpoint sm/md/lg/xl Tailwind).
+- Meta Title/Description/OG/Twitter card đầy đủ trong `layout.tsx`.
+- Dark mode (toggle + persist localStorage + respect system preference).
+- Scroll animation (Framer Motion `whileInView`), không phải animation thừa.
+- Form validation (Zod) + webhook tích hợp thật + behavior tracking (scroll/click) qua webhook.
+- JSON-LD structured data cho Product (SEO nâng cao, không bắt buộc nhưng rẻ để thêm).
+
+**Cần bạn tự làm (môi trường này không có quyền):**
+- `git push` lên GitHub thật và set repo Public.
+- Deploy thật lên Vercel/Netlify/Cloudflare Pages (cần account).
+- Chụp screenshot PageSpeed Insights — chỉ chạy được trên URL đã deploy, không chạy được trên localhost/sandbox.
