@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+// Self-hosted at build time via next/font — zero runtime request to
+// fonts.googleapis.com/fonts.gstatic.com, zero render-blocking chain,
+// automatic font-display:swap + fallback-metric matching (no CLS on swap).
+const inter = Inter({
+  subsets: ["latin", "vietnamese"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const SITE_URL = "https://auraring.example.com";
 const TITLE = "AuraRing — Smart Ring Theo Dõi Sleep, Recovery & Strain";
@@ -27,15 +37,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi">
+    <html lang="vi" className={inter.variable}>
       <head>
-        {/* Google Fonts — browser fetches at runtime, not build time */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        />
         {/* Dark mode: set class before paint to avoid FOUC */}
         <script
           dangerouslySetInnerHTML={{

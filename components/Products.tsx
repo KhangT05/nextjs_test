@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { PRODUCTS, fmt } from "@/lib/products";
 import type { Product } from "@/lib/products";
 import { useStore } from "@/lib/store";
 import { RingMotif } from "./RingMotif";
+import { useRipple } from "@/lib/useRipple";
 
 function HeartIcon({ filled }: { filled: boolean }) {
   return (
@@ -21,9 +22,11 @@ function ProductCard({ product }: { product: Product }) {
   const { addToCart, toggleFavorite, isFavorite, trackView } = useStore();
   const [selectedSize, setSelectedSize] = useState(product.sizes[2] ?? product.sizes[0]);
   const [addedFlash, setAddedFlash] = useState(false);
+  const ripple = useRipple();
   const fav = isFavorite(product.id);
 
-  function handleAddToCart() {
+  function handleAddToCart(e: React.MouseEvent<HTMLButtonElement>) {
+    ripple(e);
     addToCart(product, selectedSize);
     trackView(product);
     setAddedFlash(true);
@@ -36,7 +39,7 @@ function ProductCard({ product }: { product: Product }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45 }}
-      className="group relative flex flex-col bg-bone dark:bg-midnight2 rounded-2xl overflow-hidden border border-midnight/5 dark:border-bone/5 hover:border-aqua/30 transition-colors"
+      className="ring-pulse-trigger group relative flex flex-col bg-bone dark:bg-midnight2 rounded-2xl overflow-hidden border border-midnight/5 dark:border-bone/5 hover:border-aqua/30 transition-colors"
       onClick={() => trackView(product)}
     >
       {/* Badge */}
@@ -61,7 +64,10 @@ function ProductCard({ product }: { product: Product }) {
         className="flex items-center justify-center py-10"
         style={{ background: `linear-gradient(135deg, ${product.ringColor}18 0%, ${product.accentColor}0a 100%)` }}
       >
-        <div className="animate-float">
+        <div
+          className="ring-pulse-target animate-float rounded-full"
+          style={{ "--pulse-color": product.accentColor } as React.CSSProperties}
+        >
           <RingMotif
             percent={88}
             size={140}
@@ -104,8 +110,8 @@ function ProductCard({ product }: { product: Product }) {
             {fmt(product.price)}
           </span>
           <button
-            onClick={(e) => { e.stopPropagation(); handleAddToCart(); }}
-            className={`text-sm font-medium px-4 py-2 rounded-full transition-all ${
+            onClick={(e) => { e.stopPropagation(); handleAddToCart(e); }}
+            className={`relative overflow-hidden text-sm font-medium px-4 py-2 rounded-full transition-all ${
               addedFlash
                 ? "bg-aqua text-midnight scale-95"
                 : "bg-midnight text-bone dark:bg-bone dark:text-midnight hover:opacity-90"
@@ -119,7 +125,35 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
+function ProductCardSkeleton() {
+  return (
+    <div className="flex flex-col bg-bone dark:bg-midnight2 rounded-2xl overflow-hidden border border-midnight/5 dark:border-bone/5">
+      <div className="skeleton h-[216px]" />
+      <div className="p-5 flex flex-col gap-4">
+        <div className="skeleton h-4 w-3/4 rounded" />
+        <div className="skeleton h-3 w-1/2 rounded" />
+        <div className="flex gap-1.5">
+          {Array.from({ length: 4 }).map((_, i) => <div key={i} className="skeleton w-8 h-8 rounded-lg" />)}
+        </div>
+        <div className="flex items-center justify-between pt-2">
+          <div className="skeleton h-4 w-20 rounded" />
+          <div className="skeleton h-8 w-24 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Products() {
+  // PRODUCTS is static local data — no real fetch latency, so this skeleton
+  // is purely a first-paint→mount visual treatment (one animation frame),
+  // not gating on async data. Fixed skeleton height == real card height, so
+  // there's no CLS from the swap. If product data ever moves to a real API
+  // call (inventory/pricing), this same `mounted` boolean should be replaced
+  // by the actual fetch's loading state instead of a mount flag.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
     <section id="products" className="py-24 md:py-32 border-t border-midnight/5 dark:border-bone/5">
       <div className="container-x section-pad">
@@ -130,7 +164,9 @@ export function Products() {
           </h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {PRODUCTS.map((p) => <ProductCard key={p.id} product={p} />)}
+          {mounted
+            ? PRODUCTS.map((p) => <ProductCard key={p.id} product={p} />)
+            : PRODUCTS.map((_, i) => <ProductCardSkeleton key={i} />)}
         </div>
       </div>
     </section>

@@ -41,11 +41,17 @@ export function track(event: TrackEvent) {
 }
 
 let firedDepths = new Set<number>();
-export function initScrollTracking() {
+export function initScrollTracking(onMilestone?: (depth: 25 | 50 | 75 | 100) => void) {
   if (typeof window === "undefined") return () => {};
   firedDepths = new Set();
 
-  const onScroll = () => {
+  // Single rAF-throttled listener drives both analytics beacons and the
+  // optional UI callback (toast) — avoids a second scroll listener/handler
+  // duplicating the same scrollY/docHeight math on every frame.
+  let ticking = false;
+
+  const compute = () => {
+    ticking = false;
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     if (docHeight <= 0) return;
@@ -54,9 +60,17 @@ export function initScrollTracking() {
     [25, 50, 75, 100].forEach((mark) => {
       if (pct >= mark && !firedDepths.has(mark)) {
         firedDepths.add(mark);
-        track({ type: "scroll_depth", depth: mark as 25 | 50 | 75 | 100 });
+        const depth = mark as 25 | 50 | 75 | 100;
+        track({ type: "scroll_depth", depth });
+        onMilestone?.(depth);
       }
     });
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(compute);
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
