@@ -64,10 +64,10 @@ export function Newsletter() {
             className="pointer-events-none absolute -bottom-32 -right-20 w-[420px] h-[420px] rounded-full bg-aqua/15 blur-[100px]"
           />
           <div className="relative max-w-lg">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-aqua mb-4">
+            <p className="num text-xs uppercase tracking-[0.2em] text-aqua mb-4">
               Đợt đặt trước giới hạn 500 chiếc
             </p>
-            <h2 className="font-display font-semibold text-3xl md:text-4xl tracking-tightest mb-4">
+            <h2 className="font-semibold text-3xl md:text-4xl tracking-tightest mb-4">
               Nhận thông báo khi mở bán.
             </h2>
             <p className="text-slate-400 mb-8 leading-relaxed">

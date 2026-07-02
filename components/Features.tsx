@@ -43,10 +43,10 @@ export function Features() {
     <section id="features" className="py-24 md:py-32 border-t border-midnight/5 dark:border-bone/5">
       <div className="container-x section-pad">
         <div className="max-w-xl mb-16">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-aqua mb-4">
+          <p className="num text-xs uppercase tracking-[0.2em] text-aqua mb-4">
             Tính năng
           </p>
-          <h2 className="font-display font-semibold text-3xl md:text-4xl tracking-tightest">
+          <h2 className="font-semibold text-3xl md:text-4xl tracking-tightest">
             Không phải app nào cũng cần. Chỉ cần đeo.
           </h2>
         </div>
@@ -63,10 +63,10 @@ export function Features() {
             >
               <RingMotif percent={f.percent} size={88} stroke={6} value="" color={f.color} />
               <div>
-                <p className="font-mono text-xl mb-2" style={{ color: f.color }}>
+                <p className="num text-xl mb-2" style={{ color: f.color }}>
                   {f.metric}
                 </p>
-                <h3 className="font-display font-medium text-xl mb-2">{f.title}</h3>
+                <h3 className="font-semibold font-medium text-xl mb-2">{f.title}</h3>
                 <p className="text-slate-500 dark:text-slate-400 leading-relaxed">{f.desc}</p>
               </div>
             </motion.div>

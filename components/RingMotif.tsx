@@ -62,7 +62,7 @@ export function RingMotif({
       {(label || value) && (
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           {value && (
-            <span className="font-mono text-2xl md:text-3xl font-medium tabular-nums">
+            <span className="num text-2xl md:text-3xl font-medium tabular-nums">
               {value}
             </span>
           )}

@@ -46,10 +46,10 @@ export function Specs() {
     <section id="specs" className="py-24 md:py-32 border-t border-midnight/5 dark:border-bone/5">
       <div className="container-x section-pad">
         <div className="max-w-xl mb-16">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-aqua mb-4">
+          <p className="num text-xs uppercase tracking-[0.2em] text-aqua mb-4">
             Thông số kỹ thuật
           </p>
-          <h2 className="font-display font-semibold text-3xl md:text-4xl tracking-tightest">
+          <h2 className="font-semibold text-3xl md:text-4xl tracking-tightest">
             Đo đạc, không phải marketing.
           </h2>
         </div>
@@ -63,12 +63,12 @@ export function Specs() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.45, delay: gi * 0.05 }}
             >
-              <h3 className="font-display font-medium text-lg mb-4 text-aqua">{g.group}</h3>
+              <h3 className="font-semibold font-medium text-lg mb-4 text-aqua">{g.group}</h3>
               <dl className="divide-y divide-midnight/5 dark:divide-bone/5">
                 {g.rows.map(([label, value]) => (
                   <div key={label} className="flex items-baseline justify-between py-3 gap-4">
                     <dt className="text-sm text-slate-500 dark:text-slate-400">{label}</dt>
-                    <dd className="font-mono text-sm text-right">{value}</dd>
+                    <dd className="num text-sm text-right">{value}</dd>
                   </div>
                 ))}
               </dl>

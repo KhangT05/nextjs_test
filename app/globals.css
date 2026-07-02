@@ -3,41 +3,35 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
+
   body {
-    @apply bg-bone text-midnight font-body antialiased transition-colors duration-300;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    @apply bg-bone text-midnight antialiased transition-colors duration-300;
   }
-  html.dark body {
-    @apply bg-midnight text-bone;
+  html.dark body { @apply bg-midnight text-bone; }
+
+  ::selection { @apply bg-aqua/30; }
+  :focus-visible { outline: 2px solid #5eead4; outline-offset: 3px; }
+}
+
+@layer utilities {
+  /* Replaces font-mono: same font, tabular nums, tight tracking */
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    letter-spacing: -0.01em;
+    font-weight: 500;
   }
-  ::selection {
-    @apply bg-aqua/30;
-  }
-  /* visible keyboard focus */
-  :focus-visible {
-    outline: 2px solid #5eead4;
-    outline-offset: 3px;
-  }
+  .container-x { @apply max-w-[1180px] mx-auto w-full; }
+  .section-pad { @apply px-5 md:px-10 lg:px-6; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@layer utilities {
-  .section-pad {
-    @apply px-6 md:px-10 lg:px-0;
-  }
-  .container-x {
-    @apply max-w-content mx-auto w-full;
   }
 }
